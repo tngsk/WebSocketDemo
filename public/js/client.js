@@ -616,6 +616,20 @@ class P5Drawing {
 
   // タッチ開始時の処理
   touchStarted() {
+    // コントロール領域内のタッチは処理しない（nameInputなどのUI要素のため）
+    const controlsElement = document.querySelector(".controls");
+    if (controlsElement) {
+      const rect = controlsElement.getBoundingClientRect();
+      if (
+        this.p.mouseX >= rect.left &&
+        this.p.mouseX <= rect.right &&
+        this.p.mouseY >= rect.top &&
+        this.p.mouseY <= rect.bottom
+      ) {
+        return true; // デフォルトの動作を許可
+      }
+    }
+
     this.app.isDragging = false;
     this.app.lastTouchPosition = { x: this.p.mouseX, y: this.p.mouseY };
     return false; // ブラウザのデフォルトのタッチイベントを抑制
@@ -623,6 +637,20 @@ class P5Drawing {
 
   // タッチ移動時の処理
   touchMoved() {
+    // コントロール領域内のタッチは処理しない
+    const controlsElement = document.querySelector(".controls");
+    if (controlsElement) {
+      const rect = controlsElement.getBoundingClientRect();
+      if (
+        this.p.mouseX >= rect.left &&
+        this.p.mouseX <= rect.right &&
+        this.p.mouseY >= rect.top &&
+        this.p.mouseY <= rect.bottom
+      ) {
+        return true; // デフォルトの動作を許可
+      }
+    }
+
     const p = this.p;
     const deltaX = p.abs(p.mouseX - this.app.lastTouchPosition.x);
     const deltaY = p.abs(p.mouseY - this.app.lastTouchPosition.y);
@@ -638,6 +666,20 @@ class P5Drawing {
 
   // タッチ終了時の処理
   touchEnded() {
+    // コントロール領域内のタッチは処理しない
+    const controlsElement = document.querySelector(".controls");
+    if (controlsElement) {
+      const rect = controlsElement.getBoundingClientRect();
+      if (
+        this.p.mouseX >= rect.left &&
+        this.p.mouseX <= rect.right &&
+        this.p.mouseY >= rect.top &&
+        this.p.mouseY <= rect.bottom
+      ) {
+        return true; // デフォルトの動作を許可
+      }
+    }
+
     const p = this.p;
 
     // ドラッグでなければタップと判断し、リアクションと花火をランダムで送信

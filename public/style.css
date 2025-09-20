@@ -44,6 +44,7 @@ body::-webkit-scrollbar {
     background: rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     z-index: 100;
+    touch-action: auto;
 }
 .name-section {
     display: flex;
@@ -58,6 +59,7 @@ body::-webkit-scrollbar {
     border-radius: 6px;
     font-size: 14px;
     transition: border-color 0.2s;
+    touch-action: manipulation;
 }
 #nameInput:focus {
     outline: none;
