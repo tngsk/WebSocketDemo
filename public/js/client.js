@@ -217,9 +217,7 @@ export class RealtimeDemo {
       (connected) => this.handleConnectionStatusChange(connected),
     );
 
-    this.inputHandler = new InputHandler(this.dom, (name) =>
-      this.sendNameUpdate(name),
-    );
+    this.inputHandler = new InputHandler(this.dom, () => this.sendNameUpdate());
   }
 
   // --- 6.3. イベントリスナー設定 (Event Listener Setup) ---
@@ -444,10 +442,23 @@ export class RealtimeDemo {
         this.dom.showNotification(`${name} left`, "leave");
         break;
       case MESSAGE_TYPES.NAME:
-        console.log("Received NAME message:", message); // コンソール出力追加
+        console.log("Received NAME message:", message);
+        console.log("Current cursors:", this.cursors);
+        console.log("Looking for cursor with userId:", userId);
         this.dom.showNotification(`${oldName} → ${name}`, "name");
         const cursor = this.cursors.get(userId);
-        if (cursor) cursor.name = name;
+        if (cursor) {
+          console.log(
+            "Found cursor, updating name from",
+            cursor.name,
+            "to",
+            name,
+          );
+          cursor.name = name;
+          console.log("Cursor after update:", cursor);
+        } else {
+          console.log("No cursor found for userId:", userId);
+        }
         break;
     }
   }
@@ -495,14 +506,26 @@ export class RealtimeDemo {
   }
 
   // 名前変更をサーバーに送信します。
-  sendNameUpdate(newName) {
+  sendNameUpdate() {
+    const newName = this.dom.el.nameInput.value.trim();
+    console.log(`Attempting name change: "${this.userName}" → "${newName}"`);
     if (
       newName &&
       newName !== this.userName &&
       CONFIG.NAME_REGEX.test(newName)
     ) {
-      this.connection.send({ type: MESSAGE_TYPES.NAME, name: newName });
+      const nameMessage = { type: MESSAGE_TYPES.NAME, name: newName };
+      console.log("Sending name change message:", nameMessage);
+      this.connection.send(nameMessage);
       this.userName = newName;
+    } else {
+      console.log("Name change rejected:", {
+        newName,
+        currentName: this.userName,
+        isEmpty: !newName,
+        isSame: newName === this.userName,
+        isValid: CONFIG.NAME_REGEX.test(newName),
+      });
     }
   }
 

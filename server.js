@@ -143,7 +143,19 @@ wss.on("connection", (ws) => {
           if (/^[a-zA-Z]{1,20}$/.test(newName)) {
             const oldName = user.name;
             user.name = newName;
-            broadcast({ type: "name", userId, name: newName, oldName });
+            console.log(`Name change: ${userId} (${oldName} → ${newName})`);
+            const nameMessage = {
+              type: "name",
+              userId,
+              name: newName,
+              oldName,
+            };
+            console.log("Broadcasting name message:", nameMessage);
+            broadcast(nameMessage);
+          } else {
+            console.log(
+              `Invalid name rejected: "${newName}" from user ${userId}`,
+            );
           }
           break;
       }
