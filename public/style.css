@@ -130,6 +130,11 @@ body::-webkit-scrollbar {
 .notification.name {
     border-left: 4px solid #667eea;
 }
+.notification.private {
+    border-left: 4px solid #000;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+}
 @keyframes slideIn {
     from {
         transform: translateX(100%);

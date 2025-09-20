@@ -33,6 +33,7 @@ export const CONFIG = {
   FIREWORK_PROBABILITY_PER_INTERACTION: 0.01, // インタラクション1回あたりに増加する確率 (1%)
   MAX_FIREWORK_PROBABILITY: 0.5, // 最大出現確率 (50%)
   INTERACTION_TRACKING_WINDOW_MS: 1000, // インタラクションを追跡する時間枠 (1秒)
+  PRIVATE_MESSAGES: ["Hi from {name}", "Hello from {name}", "Hey from {name}"],
 };
 
 // WebSocketメッセージのタイプを定義します。
@@ -44,6 +45,7 @@ export const MESSAGE_TYPES = {
   JOIN: "join",
   LEAVE: "leave",
   NAME: "name",
+  PRIVATE_MESSAGE: "private_message",
 };
 
 // --- 2. ユーティリティ (Utilities) ---
@@ -265,8 +267,10 @@ export class RealtimeDemo {
   }
 
   toggleSelectedCursor(cursorId) {
+    const prev = this.selectedCursorId;
     this.selectedCursorId =
       this.selectedCursorId === cursorId ? null : cursorId;
+    if (cursorId && prev !== cursorId) this.sendPrivateMessage(cursorId);
   }
 
   drawCursor(x, y, color, name, isOwn, showName) {
@@ -460,6 +464,9 @@ export class RealtimeDemo {
           console.log("No cursor found for userId:", userId);
         }
         break;
+      case MESSAGE_TYPES.PRIVATE_MESSAGE:
+        this.dom.showNotification(message.message, "private");
+        break;
     }
   }
 
@@ -560,7 +567,20 @@ export class RealtimeDemo {
     );
   }
 
-  // --- 6.11. クリーンアップ (Cleanup) ---
+  sendPrivateMessage(targetUserId) {
+    const templates = CONFIG.PRIVATE_MESSAGES;
+    const message = templates[
+      Math.floor(Math.random() * templates.length)
+    ].replace("{name}", this.userName);
+    this.dom.showNotification(message, "private"); // 送信者にも表示
+    this.connection.send({
+      type: MESSAGE_TYPES.PRIVATE_MESSAGE,
+      targetUserId,
+      message,
+    });
+  }
+
+  // --- 9. クリーンアップ (Cleanup) ---
   // アプリケーション終了時のクリーンアップ処理を行います。
   cleanup() {
     this.connection.ws?.close();

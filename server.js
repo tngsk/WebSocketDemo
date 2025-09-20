@@ -158,6 +158,18 @@ wss.on("connection", (ws) => {
             );
           }
           break;
+        case "private_message":
+          const targetUser = users.get(msg.targetUserId);
+          if (targetUser && targetUser.ws.readyState === WebSocket.OPEN) {
+            // 受信者にのみ送信（送信者は既にローカル表示）
+            targetUser.ws.send(
+              JSON.stringify({
+                type: "private_message",
+                message: msg.message,
+              }),
+            );
+          }
+          break;
       }
     } catch (error) {
       console.error("Error parsing message:", error);
