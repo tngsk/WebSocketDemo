@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+        />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+        <meta name="format-detection" content="telephone=no" />
+        <title>Realtime Demo</title>
+        <link rel="stylesheet" href="components.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="controls cluster-menu">
+                <div class="name-section">
+                    <label for="nameInput">Your Name:</label>
+                    <input
+                        type="text"
+                        id="nameInput"
+                        placeholder="Enter name (a-z, A-Z)"
+                        maxlength="20"
+                        pattern="[a-zA-Z]+"
+                        autocomplete="off"
+                    />
+                    <span id="nameStatus">✓</span>
+                </div>
+                <div class="info-section cluster">
+                    <span id="userCount">👥 0 users online</span>
+                    <span id="connectionStatus" class="status-disconnected"
+                        >⚫ Disconnected</span
+                    >
+                </div>
+            </div>
+            <div class="instructions">
+                <p>
+                    🖱️ Move mouse/drag to show cursor • 👆 Tap for reactions •
+                    ✏️ Set your name above
+                </p>
+            </div>
+            <div id="canvasContainer"></div>
+            <div id="notifications" class="notifications stack-small"></div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+        <script type="module" src="js/client.js"></script>
+    </body>
+</html>

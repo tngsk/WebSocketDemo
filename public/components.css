@@ -1,0 +1,91 @@
+/* =================================================================
+   Components CSS - Minimal Layout Components
+   ================================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --space: 1.5rem;
+}
+
+/* Stack Component - 垂直方向の余白管理 */
+.stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.stack > * + * {
+    margin-top: 1.5rem;
+}
+
+.stack-small > * + * {
+    margin-top: 0.5rem;
+}
+
+/* Box Component - パディングとカラーテーマ管理 */
+.box {
+    --color-light: #eee;
+    --color-dark: #222;
+    color: var(--color-dark);
+    background-color: var(--color-light);
+    padding: 1.5rem;
+}
+
+.box * {
+    color: inherit;
+}
+
+.box.invert {
+    color: var(--color-light);
+    background-color: var(--color-dark);
+}
+
+/* Center Component - 水平方向の中央揃え */
+.center {
+    box-sizing: content-box;
+    max-width: 80%;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cluster Component - フレックスボックスによる要素配置 */
+.cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: start;
+    align-items: center;
+}
+
+.cluster-menu-set {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space, 1rem);
+    justify-content: center;
+    align-items: center;
+}
+
+.cluster-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space, 1rem);
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Notification utility */
+.notification {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

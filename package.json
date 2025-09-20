@@ -1,0 +1,25 @@
+{
+  "name": "webprog-demo",
+  "version": "1.0.0",
+  "description": "Minimal realtime web demo with cursor sync, reactions, and name setting",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "websocket",
+    "webprogramming",
+    "demo",
+    "cursor",
+    "reactions"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
